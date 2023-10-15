@@ -14,10 +14,10 @@ type Handler struct {
 
 func Init(url string) Handler {
 	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
-
 	if err != nil {
 		log.Fatal(err)
 	}
 	db.AutoMigrate(&models.User{})
+	log.Println("PSQL connected successfully")
 	return Handler{}
 }

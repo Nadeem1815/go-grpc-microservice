@@ -1,10 +1,12 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"github.com/spf13/viper"
+)
 
 type Config struct {
 	Port         string `mapstructure:"PORT"`
-	DBUrl        string `mapstructure:"db_url"`
+	DBUrl        string `mapstructure:"DB_URL"`
 	JWTSecretKey string `mapstructure:"JWT_SECRET_KEY"`
 }
 
@@ -16,11 +18,12 @@ func LoadConfig() (Config Config, err error) {
 	viper.AutomaticEnv()
 
 	err = viper.ReadInConfig()
-
 	if err != nil {
 		return
-
 	}
 	err = viper.Unmarshal(&Config)
+	if err != nil {
+		return
+	}
 	return
 }
