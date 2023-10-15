@@ -9,7 +9,7 @@ import (
 )
 
 type Handler struct {
-	Db *gorm.DB
+	DB *gorm.DB
 }
 
 func Init(url string) Handler {
