@@ -19,5 +19,5 @@ func Init(url string) Handler {
 	}
 	db.AutoMigrate(&models.User{})
 	log.Println("PSQL connected successfully")
-	return Handler{}
+	return Handler{db}
 }
