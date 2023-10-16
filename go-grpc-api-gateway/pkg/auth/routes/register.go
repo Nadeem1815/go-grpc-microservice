@@ -2,6 +2,7 @@ package routes
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/Nadeem1815/go-grpc-api-gateway/pkg/auth/pb"
@@ -27,6 +28,7 @@ func Register(ctx *gin.Context, c pb.AuthServiceClient) {
 	})
 
 	if err != nil {
+		fmt.Println(err.Error())
 		ctx.AbortWithError(http.StatusBadGateway, err)
 		return
 
