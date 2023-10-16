@@ -8,22 +8,47 @@ import (
 	"github.com/Nadeem1815/go-grpc-auth-svc/pkg/models"
 	"github.com/Nadeem1815/go-grpc-auth-svc/pkg/pb"
 	"github.com/Nadeem1815/go-grpc-auth-svc/pkg/utils"
+	"gorm.io/gorm"
 )
 
 type Server struct {
 	H   db.Handler
 	Jwt utils.JwtWrapper
+	pb.UnimplementedAuthServiceServer
 }
+
+// mustEmbedUnimplementedAuthServiceServer implements pb.AuthServiceServer.
+// func (*Server) mustEmbedUnimplementedAuthServiceServer() {
+// 	panic("unimplemented")
+// }
+
+// mustEmbedUnimplementedAuthServiceServer implements pb.AuthServiceServer.
+// func (*Server) mustEmbedUnimplementedAuthServiceServer() {
+// 	panic("unimplemented")
+// }
+
+// // mustEmbedUnimplementedAuthServiceServer implements pb.AuthServiceServer.
+// func (*Server) mustEmbedUnimplementedAuthServiceServer() {
+// 	panic("unimplemented")
+// }
 
 func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, error) {
 	var user models.User
 
-	if result := s.H.DB.Where(&models.User{Email: req.Email}).First(&user); result.Error != nil {
+	result := s.H.DB.Where(&models.User{Email: req.Email}).First(&user)
+
+	if result.Error != nil && result.Error != gorm.ErrRecordNotFound {
 		return &pb.RegisterResponse{
 			Status: http.StatusConflict,
-			Error:  "E-mail already exists",
+			Error:  result.Error.Error(),
 		}, nil
 
+	}
+	if result.Error == nil && user.Id != 0 {
+		return &pb.RegisterResponse{
+			Status: http.StatusConflict,
+			Error:  "Record Already Exist",
+		}, nil
 	}
 	user.Email = req.Email
 	user.Password = utils.HashPassword(req.Password)
