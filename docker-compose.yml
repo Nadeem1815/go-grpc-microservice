@@ -1,1 +1,34 @@
 version: "3.9"
+services:
+  api-gateway:
+    image: nadeem1815/api-gateway
+    environment:
+      - PORT=:3000
+      - AUTH_SVC_URL=auth-svc:50051
+      - PRODUCT_SVC_URL=order-svc:50052
+      - ORDER_SVC_URL=order-svc:50053
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth-svc
+    restart: always
+
+  auth-svc:
+    image: nadeem1815/auth-service
+    ports:
+      - "50051:50051"
+    environment:
+      - PORT=:50051
+      - DB_URL=postgres://nadeem:181511@auth-db:5432/auth_svc
+      - JWT_SECRET_KEY=r43t18sc
+    depends_on:
+      - auth-db
+    restart: always
+
+  auth-db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=auth_svc
+      - POSTGRES_USER=nadeem
+      - POSTGRES_PASSWORD=181511
+    restart: always

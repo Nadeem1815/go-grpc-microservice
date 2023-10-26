@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/Nadeem1815/go-grpc-api-gateway/pkg/auth"
@@ -17,6 +18,7 @@ func main() {
 		log.Fatalln("failed at config", err)
 
 	}
+	fmt.Println(c.Port)
 	r := gin.Default()
 	authSvc := *auth.RegisterRoutes(r, &c)
 	product.RegisterRoutes(r, &c, &authSvc)
