@@ -19,7 +19,7 @@ services:
       - "50051:50051"
     environment:
       - PORT=:50051
-      - DB_URL=postgres://nadeem:181511@auth-db:5432/auth_svc
+      - DB_URL=postgres://nadeem:181511@localhost:5432/auth_svc
       - JWT_SECRET_KEY=r43t18sc
     depends_on:
       - auth-db
