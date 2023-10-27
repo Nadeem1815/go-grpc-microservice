@@ -7,24 +7,38 @@ type Config struct {
 }
 
 func LoadConfig() (Config, error) {
-	// viper.AddConfigPath("./pkg/config/envs")
-	// viper.SetConfigName("dev")
-	// viper.SetConfigType("env")
+	// 	// viper.AddConfigPath("./pkg/config/envs")
+	// 	// viper.SetConfigName("dev")
+	// 	// viper.SetConfigType("env")
 
-	// viper.AutomaticEnv()
+	// 	// viper.AutomaticEnv()
 
-	// err = viper.ReadInConfig()
-	// if err != nil {
-	// 	return
-	// }
-	// err = viper.Unmarshal(&Config)
-	// if err != nil {
-	// 	return
-	// }
-	// return
+	// 	// err = viper.ReadInConfig()
+	// 	// if err != nil {
+	// 	// 	return
+	// 	// }
+	// 	// err = viper.Unmarshal(&Config)
+	// 	// if err != nil {
+	// 	// 	return
+	// 	// }
+	// 	// return
 	return Config{
 		Port:         ":50051",
-		DBUrl:        "postgres://nadeem:181511@auth-db:5432/auth_svc",
+		DBUrl:        "postgres://nadeem:181511@localhost:5432/auth_svc",
 		JWTSecretKey: "r43t18sc",
 	}, nil
 }
+
+// func LoadConfig() (Config, error) {
+// 	var config Config
+
+// 	viper.AddConfigPath("./")
+// 	viper.SetConfigFile(".env")
+// 	viper.AutomaticEnv()
+// 	if err := viper.ReadInConfig(); err != nil {
+// 		return Config{}, err
+// 	}
+// 	err := viper.Unmarshal(&config)
+// 	return config, err
+
+// }
