@@ -9,3 +9,4 @@ FROM alpine:3.14 AS prod
 WORKDIR /app
 COPY --from=build-stage /app/build/api /app/api
 CMD [ "/app/api" ]
+
