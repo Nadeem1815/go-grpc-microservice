@@ -78,8 +78,10 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 		}, nil
 	}
 
-	token, _ := s.Jwt.GenerateToken(user)
-
+	token, err := s.Jwt.GenerateToken(user)
+	if err != nil {
+		return nil, err
+	}
 	return &pb.LoginResponse{
 		Status: http.StatusOK,
 		Token:  token,
