@@ -1,5 +1,7 @@
 package config
 
+import "github.com/spf13/viper"
+
 type Config struct {
 	Port        string `mapstructure:"PORT"`
 	AuthSvcUrl  string `mapstructure:"AUTH_SVC_URL"`
@@ -8,22 +10,22 @@ type Config struct {
 }
 
 func LoadConfig() (c Config, err error) {
-	// viper.AddConfigPath("./pkg/config/envs")
-	// viper.SetConfigName("dev")
-	// viper.SetConfigType("env")
+	viper.AddConfigPath("./pkg/config/envs")
+	viper.SetConfigName("dev")
+	viper.SetConfigType("env")
 
-	// viper.AutomaticEnv()
-	// err = viper.ReadInConfig()
-	// if err != nil {
-	// 	return
+	viper.AutomaticEnv()
+	err = viper.ReadInConfig()
+	if err != nil {
+		return
 
-	// }
-	// err = viper.Unmarshal(&c)
-	// return
-	return Config{
-		Port:        ":3000",
-		AuthSvcUrl:  "auth-svc:50051",
-		ProductSvcl: "localhost:50051",
-		OrderSvcUrl: "localhost:50053",
-	}, nil
+	}
+	err = viper.Unmarshal(&c)
+	return
+	// return Config{
+	// 	Port:        ":3000",
+	// 	AuthSvcUrl:  "auth-svc:50051",
+	// 	ProductSvcl: "localhost:50051",
+	// 	OrderSvcUrl: "localhost:50053",
+	// }, nil
 }
